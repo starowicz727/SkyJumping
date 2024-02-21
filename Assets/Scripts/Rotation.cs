@@ -11,6 +11,9 @@ public class Rotation : MonoBehaviour
     private bool toTheLeft = true;
     [SerializeField] private int whichRotation = 0; //0=cradlex()
 
+    private const float secondsOnStop = 1f;
+    private float stopTimer = secondsOnStop;
+
     private void Start()
     {
     }
@@ -39,10 +42,15 @@ public class Rotation : MonoBehaviour
                 transform.Rotate(rotationsPerMinute * Time.deltaTime, 0, 0);
                 timerLeft++;
             }
+            else if(timerLeft >= swingTime && stopTimer>0)
+            {
+                stopTimer -= Time.deltaTime;
+            }
             else
             {
                 toTheLeft = false;
                 timerLeft = 0;
+                stopTimer = secondsOnStop;
             }
         }
         else
@@ -52,10 +60,15 @@ public class Rotation : MonoBehaviour
                 transform.Rotate(-rotationsPerMinute * Time.deltaTime, 0, 0);
                 timerRight++;
             }
+            else if (timerRight >= swingTime && stopTimer > 0)
+            {
+                stopTimer -= Time.deltaTime;
+            }
             else
             {
                 toTheLeft = true;
                 timerRight = 0;
+                stopTimer = secondsOnStop;
             }
         }
     }
@@ -117,6 +130,25 @@ public class Rotation : MonoBehaviour
                 toTheLeft = true;
                 timerRight = 0;
             }
+        }
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("player enter ");
+            collision.transform.parent = this.transform;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("player ext ");
+            collision.transform.parent = null;
         }
     }
 }

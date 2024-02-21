@@ -9,6 +9,11 @@ public class PlatformMoving : MonoBehaviour
     [SerializeField] private float amplitude = 2f;
     [SerializeField] private bool goUp;
     [SerializeField] private bool toTheSide = true;
+
+    
+    private const float secondsOnStop = 1f;
+    private float stopTimer = secondsOnStop;
+
     void Start()
     {
         if (toTheSide)
@@ -39,24 +44,34 @@ public class PlatformMoving : MonoBehaviour
     {
         if (goUp)
         {
-            if (this.transform.position.y <= startPosition + amplitude)
+            if (this.transform.position.y < startPosition + amplitude)
             {
                 this.transform.position = transform.position + new Vector3(0, directionSpeed * Time.deltaTime, 0);
+            }
+            else if (this.transform.position.y > startPosition + amplitude && stopTimer>0)
+            {
+                stopTimer-= Time.deltaTime;
             }
             else
             {
                 goUp = false;
+                stopTimer = secondsOnStop;
             }
         }
         else
         {
-            if (this.transform.position.y >= startPosition - amplitude)
+            if (this.transform.position.y > startPosition - amplitude)
             {
                 this.transform.position = transform.position - new Vector3(0, directionSpeed * Time.deltaTime, 0);
+            }
+            else if (this.transform.position.y < startPosition - amplitude && stopTimer > 0)
+            {
+                stopTimer -= Time.deltaTime;
             }
             else
             {
                 goUp = true;
+                stopTimer = secondsOnStop;
             }
         }
     }
@@ -65,25 +80,54 @@ public class PlatformMoving : MonoBehaviour
     {
         if (goUp)
         {
-            if (this.transform.position.z <= startPosition + amplitude)
+            if (this.transform.position.z < startPosition + amplitude)
             {
                 this.transform.position = transform.position + new Vector3(0, 0, directionSpeed * Time.deltaTime);
+            }
+            else if (this.transform.position.z > startPosition + amplitude && stopTimer > 0)
+            {
+                stopTimer -= Time.deltaTime;
             }
             else
             {
                 goUp = false;
+                stopTimer = secondsOnStop;
             }
         }
         else
         {
-            if (this.transform.position.z >= startPosition - amplitude)
+            if (this.transform.position.z > startPosition - amplitude)
             {
                 this.transform.position = transform.position - new Vector3(0, 0, directionSpeed * Time.deltaTime);
+            }
+            else if (this.transform.position.z < startPosition - amplitude && stopTimer > 0)
+            {
+                stopTimer -= Time.deltaTime;
             }
             else
             {
                 goUp = true;
+                stopTimer = secondsOnStop;
             }
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("player enter ");
+            collision.transform.parent = this.transform;
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("player ext ");
+            collision.transform.parent = null;
+        }
+    }
+
 }
