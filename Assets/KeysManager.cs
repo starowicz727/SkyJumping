@@ -5,12 +5,18 @@ using UnityEngine.InputSystem.LowLevel;
 
 public class KeysManager : MonoBehaviour
 {
-    public GameObject door;
-    private void OnCollisionEnter(Collision collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
+    private float rotationsPerMinute = 20;
 
+    private void Update()
+    {
+        transform.Rotate(0, 0, rotationsPerMinute * Time.deltaTime);
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            DoorManager.canBeOpen = true;
+            Destroy(this.gameObject);
         }
     }
 }

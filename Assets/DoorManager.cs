@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DoorManager : MonoBehaviour
 {
-    private bool canBeOpen = true;
+    public static bool canBeOpen = false;
     public GameObject blockingPlane;
     private float timer = 5;
     private void OnTriggerStay(Collider other)
