@@ -6,6 +6,7 @@ using UnityEngine.InputSystem.LowLevel;
 public class KeysManager : MonoBehaviour
 {
     private float rotationsPerMinute = 20;
+    public GameObject door;
 
     private void Update()
     {
@@ -15,7 +16,7 @@ public class KeysManager : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            DoorManager.canBeOpen = true;
+            door.GetComponent<DoorManager>().canBeOpen = true;  
             Destroy(this.gameObject);
         }
     }

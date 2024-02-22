@@ -10,7 +10,6 @@ public class PlayerCheckpoint : MonoBehaviour
         if (collision.gameObject.tag == "Checkpoint")
         {
             GameState.currentCheckpoint = collision.gameObject;
-            Debug.Log(GameState.currentCheckpoint.gameObject.name);
         }
 
 

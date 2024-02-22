@@ -116,8 +116,6 @@ public class PlatformMoving : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("player enter ");
-            //collision.transform.parent = this.transform;
             collision.transform.SetParent(this.transform, true);
         }
     }
@@ -126,7 +124,6 @@ public class PlatformMoving : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            Debug.Log("player ext ");
             collision.transform.parent = null;
             //collision.transform.SetParent(null, true);
         }

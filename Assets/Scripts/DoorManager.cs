@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class DoorManager : MonoBehaviour
 {
-    public static bool canBeOpen = true;
+    public bool canBeOpen = false;
     public GameObject blockingPlane;
     private float timer = 5;
     private float fadeSpeed = 0.35f;
